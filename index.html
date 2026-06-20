@@ -9,218 +9,273 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<div class="grain"></div>
+<div class="grain" aria-hidden="true"></div>
 
 <header class="site-header">
-  <a href="#top" aria-label="Castaneda Strings home">
-    <img class="brand-logo" src="assets/logo-stacked-trimmed.png" alt="Castaneda Strings" />
-  </a>
-  <nav class="main-nav">
-    <ul>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#occasions">Occasions</a></li>
-      <li><a href="#moments">Moments</a></li>
-    </ul>
-    <a href="#inquire" class="btn btn-light">Book Now</a>
-  </nav>
-  <button class="nav-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <div class="site-header-inner">
+    <a class="site-brand" href="#top" aria-label="Castaneda Strings home">
+      <img class="site-header-logo" src="assets/logo-badge-trimmed.png" alt="Castaneda Strings" />
+      <span class="site-brand-name">Castaneda Strings</span>
+    </a>
+
+    <nav class="site-header-bar" aria-label="Primary navigation">
+      <a href="#experience">Experience</a>
+      <a href="#occasions">Occasions</a>
+      <a href="#moments">Moments</a>
+      <a href="#inquire">Inquire</a>
+    </nav>
+
+    <a class="site-header-meta" href="#inquire">Request date</a>
+
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </header>
 
-<div class="mobile-menu">
+<div class="mobile-menu" aria-label="Mobile navigation">
   <a href="#experience">Experience</a>
   <a href="#occasions">Occasions</a>
   <a href="#moments">Moments</a>
-  <a href="#inquire" class="btn">Book Now</a>
+  <a href="#inquire">Inquire</a>
 </div>
 
 <main id="top">
 
   <!-- HERO -->
   <section class="hero">
-    <img class="hero-img" src="assets/hero-black-dress.jpg" alt="Rebecca Castaneda performing violin on a garden pathway at golden hour" />
-    <div class="hero-content">
+    <div class="hero-left">
       <div class="hero-copy">
-        <span class="eyebrow eyebrow-light">Live Violin &amp; Strings · South Florida</span>
-        <h1>Live strings for moments that deserve to be felt.</h1>
-        <p class="hero-sub">Elegant violin and string music for weddings, ceremonies, cocktail hours, private celebrations, and brand events.</p>
-        <div class="hero-cta">
-          <a href="#inquire" class="btn btn-light">Book Now</a>
+        <p class="label hero-eyebrow">Live violin &amp; strings · South Florida</p>
+        <h1 class="display display-xl hero-title">Live strings for moments that deserve to be felt.</h1>
+        <p class="hero-kicker">A refined live-music presence for ceremonies, celebrations, and meaningful gatherings.</p>
+        <p class="hero-body">Elegant violin and string music for weddings, cocktail hours, private celebrations, church events, brand moments, and corporate gatherings.</p>
+        <div class="hero-ctas">
+          <a href="#inquire" class="btn btn-primary">Inquire for Your Event</a>
+          <a href="#rates" class="btn btn-ghost">View Rates</a>
         </div>
       </div>
     </div>
-    <span class="scroll-cue">Scroll</span>
+    <div class="hero-right">
+      <img src="assets/hero-black-dress.jpg" alt="Rebecca Castaneda performing violin on a garden pathway at golden hour" />
+    </div>
   </section>
 
+  <hr class="section-rule" />
+
   <!-- THE SCORE: one continuous piece, four movements -->
-  <div class="score">
-    <div class="spine"></div>
+  <section class="score" aria-label="The Castaneda Strings experience">
+    <div class="spine" aria-hidden="true"></div>
 
     <!-- MOVEMENT I — EXPERIENCE -->
-    <div class="movement-mark reveal" id="experience">
-      <span class="num">I</span>
-      <span class="label">The Experience</span>
-    </div>
-    <div class="movement-content">
-      <p class="experience-statement reveal">From the first note of a ceremony to the atmosphere of a cocktail hour, Castaneda Strings brings a <span class="accent-word">refined live-music presence</span> to gatherings where the details matter.</p>
-    </div>
+    <article class="movement reveal" id="experience">
+      <div class="movement-mark">
+        <span class="num">I</span>
+        <span class="label">The Experience</span>
+      </div>
+      <div class="movement-content">
+        <h2 class="display display-lg section-title">The room changes when the music is live.</h2>
+        <p class="experience-statement">From the first note of a ceremony to the atmosphere of a cocktail hour, Castaneda Strings brings a <span>refined live-music presence</span> to gatherings where the details matter.</p>
+      </div>
+    </article>
 
     <!-- MOVEMENT II — OCCASIONS -->
-    <div class="movement-mark reveal" id="occasions">
-      <span class="num">II</span>
-      <span class="label">Occasions</span>
-    </div>
-    <div class="movement-content">
-      <h2 class="section-title reveal">Music for the moments that matter</h2>
-      <ul class="event-list reveal">
-        <li>Wedding Ceremonies</li>
-        <li>Cocktail Hours</li>
-        <li>Engagement Parties</li>
-        <li>Wedding Showers</li>
-        <li>Baby Showers</li>
-        <li>Baptisms</li>
-        <li>Quinceañeras</li>
-        <li>Corporate Events</li>
-        <li>Brand Activations</li>
-        <li>Private Dinners</li>
-        <li>Church &amp; Faith-Based Events</li>
-      </ul>
-    </div>
+    <article class="movement reveal" id="occasions">
+      <div class="movement-mark">
+        <span class="num">II</span>
+        <span class="label">Occasions</span>
+      </div>
+      <div class="movement-content">
+        <h2 class="display display-lg section-title">Music for the moments that matter.</h2>
+        <ul class="event-list">
+          <li>Wedding Ceremonies</li>
+          <li>Cocktail Hours</li>
+          <li>Engagement Parties</li>
+          <li>Wedding Showers</li>
+          <li>Baby Showers</li>
+          <li>Baptisms</li>
+          <li>Quinceañeras</li>
+          <li>Corporate Events</li>
+          <li>Brand Activations</li>
+          <li>Private Dinners</li>
+          <li>Church &amp; Faith-Based Events</li>
+        </ul>
+      </div>
+    </article>
 
     <!-- MOVEMENT III — SIGNATURE MOMENTS -->
-    <div class="movement-mark reveal" id="moments">
-      <span class="num">III</span>
-      <span class="label">Signature Moments</span>
-    </div>
-    <div class="movement-content">
-      <h2 class="section-title reveal">Music that shapes the room without overpowering it</h2>
-      <div class="moments-list reveal">
-        <div class="moment-row">
-          <h3>Ceremony Entrances</h3>
-          <p>The first chord as the processional begins.</p>
-        </div>
-        <div class="moment-row">
-          <h3>Processionals</h3>
-          <p>Music that paces the walk, not just fills it.</p>
-        </div>
-        <div class="moment-row">
-          <h3>First Looks</h3>
-          <p>A quiet underscore for a private moment.</p>
-        </div>
-        <div class="moment-row">
-          <h3>Cocktail Hour Ambience</h3>
-          <p>Conversation, unhurried, with music underneath.</p>
-        </div>
-        <div class="moment-row">
-          <h3>Dinner Transitions</h3>
-          <p>A shift in tone between courses and toasts.</p>
-        </div>
-        <div class="moment-row">
-          <h3>Brand Arrivals</h3>
-          <p>An entrance that sets the tone before anyone speaks.</p>
-        </div>
-        <div class="moment-row">
-          <h3>Private Celebration Atmosphere</h3>
-          <p>The room feels different the moment the first note plays.</p>
+    <article class="movement reveal" id="moments">
+      <div class="movement-mark">
+        <span class="num">III</span>
+        <span class="label">Signature Moments</span>
+      </div>
+      <div class="movement-content">
+        <h2 class="display display-lg section-title">Music that shapes the room without overpowering it.</h2>
+        <div class="moments-list">
+          <div class="moment-row">
+            <h3>Ceremony Entrances</h3>
+            <p>The first chord as the processional begins.</p>
+          </div>
+          <div class="moment-row">
+            <h3>Processionals</h3>
+            <p>Music that paces the walk, not just fills it.</p>
+          </div>
+          <div class="moment-row">
+            <h3>First Looks</h3>
+            <p>A quiet underscore for a private moment.</p>
+          </div>
+          <div class="moment-row">
+            <h3>Cocktail Hour Ambience</h3>
+            <p>Conversation, unhurried, with music underneath.</p>
+          </div>
+          <div class="moment-row">
+            <h3>Dinner Transitions</h3>
+            <p>A shift in tone between courses and toasts.</p>
+          </div>
+          <div class="moment-row">
+            <h3>Brand Arrivals</h3>
+            <p>An entrance that sets the tone before anyone speaks.</p>
+          </div>
+          <div class="moment-row">
+            <h3>Private Celebration Atmosphere</h3>
+            <p>The room feels different the moment the first note plays.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </article>
+  </section>
 
-  <!-- INTERLUDE: full-bleed photographic break between Moments and the Coda -->
-  <div class="interlude">
+  <!-- INTERLUDE -->
+  <section class="interlude" aria-label="Castaneda Strings performance detail">
     <img src="assets/about-brown-dress.jpg" alt="Rebecca Castaneda holding her violin and bow" />
-    <p class="interlude-caption">Every performance, tailored to the room it's written for.</p>
-  </div>
+    <div class="interlude-content">
+      <p class="label">Interlude</p>
+      <p class="display display-md">Every performance, tailored to the room it is written for.</p>
+    </div>
+  </section>
+
+  <hr class="section-rule" />
 
   <!-- MOVEMENT IV — CODA / INQUIRE -->
-  <div class="score">
-    <div class="spine"></div>
-    <div class="movement-mark reveal" id="inquire">
-      <span class="num">IV</span>
-      <span class="label">Coda</span>
-    </div>
-    <div class="movement-content">
-      <h2 class="section-title reveal">Tell us about your event</h2>
-      <div class="inquiry-grid">
-        <div class="inquiry-info reveal">
-          <p>From sacred moments to candlelit receptions, the right song changes how the moment is remembered. Share a few details and we'll follow up directly with a personalized quote.</p>
+  <section class="score score-coda" aria-label="Rates and inquiry">
+    <div class="spine" aria-hidden="true"></div>
+
+    <article class="movement reveal" id="inquire">
+      <div class="movement-mark">
+        <span class="num">IV</span>
+        <span class="label">Coda</span>
+      </div>
+      <div class="movement-content coda-content">
+        <div class="coda-intro">
+          <h2 class="display display-lg section-title">Tell us about your event.</h2>
+          <p>From sacred moments to candlelit receptions, the right song changes how the moment is remembered. Share a few details and we’ll follow up with availability and a personalized quote.</p>
         </div>
-        <form class="inquiry-form reveal" novalidate>
-          <div class="form-row">
-            <div class="field">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required />
+
+        <div class="rates" id="rates" aria-label="Event performance rates">
+          <div class="rates-header">
+            <p class="label">Event Performance Rates</p>
+            <p>Starting rates for private events, cocktail hours, brand gatherings, showers, baptisms, quinceañeras, and celebrations.</p>
+          </div>
+          <div class="rate-list">
+            <div class="rate-row">
+              <span>One hour</span>
+              <strong>$400/hr</strong>
             </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required />
+            <div class="rate-row">
+              <span>Two hours</span>
+              <strong>$350/hr</strong>
+            </div>
+            <div class="rate-row">
+              <span>Three or more hours</span>
+              <strong>$300/hr</strong>
             </div>
           </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" />
+          <p class="rates-note">Custom quotes are available for weddings, ceremonies, travel, extended performances, and multi-part events.</p>
+        </div>
+
+        <div class="inquiry-grid">
+          <div class="inquiry-info">
+            <p class="label">Begin the Conversation</p>
+            <p>Tell us the date, location, and kind of atmosphere you want. The follow-up should feel simple, personal, and clear.</p>
+          </div>
+
+          <form class="inquiry-form" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" />
+              </div>
+              <div class="field">
+                <label for="eventType">Event type</label>
+                <select id="eventType" name="eventType">
+                  <option value="">Select one</option>
+                  <option>Wedding Ceremony</option>
+                  <option>Cocktail Hour</option>
+                  <option>Engagement Party</option>
+                  <option>Wedding or Baby Shower</option>
+                  <option>Baptism</option>
+                  <option>Quinceañera</option>
+                  <option>Corporate / Brand Event</option>
+                  <option>Private Dinner</option>
+                  <option>Church Event</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="eventDate">Event date</label>
+                <input type="date" id="eventDate" name="eventDate" />
+              </div>
+              <div class="field">
+                <label for="venue">Venue / location</label>
+                <input type="text" id="venue" name="venue" />
+              </div>
             </div>
             <div class="field">
-              <label for="eventType">Event type</label>
-              <select id="eventType" name="eventType">
+              <label for="duration">Estimated performance time</label>
+              <select id="duration" name="duration">
                 <option value="">Select one</option>
-                <option>Wedding Ceremony</option>
-                <option>Cocktail Hour</option>
-                <option>Engagement Party</option>
-                <option>Wedding or Baby Shower</option>
-                <option>Baptism</option>
-                <option>Quinceañera</option>
-                <option>Corporate / Brand Event</option>
-                <option>Private Dinner</option>
-                <option>Church Event</option>
-                <option>Other</option>
+                <option>1 Hour</option>
+                <option>2 Hours</option>
+                <option>3+ Hours</option>
+                <option>Not sure yet</option>
               </select>
             </div>
-          </div>
-          <div class="form-row">
             <div class="field">
-              <label for="eventDate">Event date</label>
-              <input type="date" id="eventDate" name="eventDate" />
+              <label for="message">Tell us about your event</label>
+              <textarea id="message" name="message"></textarea>
             </div>
-            <div class="field">
-              <label for="venue">Venue / location</label>
-              <input type="text" id="venue" name="venue" />
+            <div class="form-foot">
+              <button type="submit" class="btn btn-primary">Send Inquiry</button>
+              <span class="form-note">We’ll follow up directly by email.</span>
             </div>
-          </div>
-          <div class="field">
-            <label for="duration">Estimated performance time</label>
-            <select id="duration" name="duration">
-              <option value="">Select one</option>
-              <option>1 Hour</option>
-              <option>2 Hours</option>
-              <option>3+ Hours</option>
-              <option>Not sure yet</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="message">Tell us about your event</label>
-            <textarea id="message" name="message"></textarea>
-          </div>
-          <div class="form-foot">
-            <button type="submit" class="btn">Send Inquiry</button>
-            <span class="form-note">We'll follow up directly by email.</span>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-  </div>
+    </article>
+  </section>
 
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">
+  <div class="wrap footer-wrap">
     <div class="footer-grid">
       <div>
         <img class="footer-mark" src="assets/logo-stacked-trimmed.png" alt="Castaneda Strings" />

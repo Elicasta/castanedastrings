@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       a.addEventListener('click', () => {
         toggle.classList.remove('is-open');
         mobileMenu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
       });
     });
