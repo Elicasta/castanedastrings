@@ -58,42 +58,87 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!toast) return;
     toast.textContent = message;
     toast.classList.add('is-visible');
-    window.setTimeout(() => toast.classList.remove('is-visible'), 3600);
+    window.setTimeout(() => toast.classList.remove('is-visible'), 4200);
   };
 
-  const sendInquiry = (form, mode = 'home') => {
+  const serializeInquiry = (form, mode = 'home') => {
     const data = new FormData(form);
-    const name = String(data.get('name') || '').trim();
-    const email = String(data.get('email') || '').trim();
 
-    if (!name || !email) {
+    return {
+      source: mode === 'quote' ? 'Inquiry page' : 'Homepage',
+      name: String(data.get('name') || '').trim(),
+      email: String(data.get('email') || '').trim(),
+      phone: String(data.get('phone') || '').trim(),
+      eventType: String(data.get('eventType') || data.get('serviceType') || '').trim(),
+      eventDate: String(data.get('eventDate') || '').trim(),
+      eventTime: String(data.get('eventTime') || '').trim(),
+      venue: String(data.get('venue') || '').trim(),
+      duration: String(data.get('duration') || '').trim(),
+      musicStyle: String(data.get('musicStyle') || '').trim(),
+      contactMethod: String(data.get('contactMethod') || '').trim(),
+      message: String(data.get('message') || '').trim(),
+      companyWebsite: String(data.get('companyWebsite') || '').trim()
+    };
+  };
+
+  const isValidEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
+
+  const setSubmitState = (form, isSending) => {
+    const button = form.querySelector('button[type="submit"]');
+    if (!button) return;
+
+    if (!button.dataset.originalText) {
+      button.dataset.originalText = button.textContent;
+    }
+
+    button.disabled = isSending;
+    button.setAttribute('aria-busy', String(isSending));
+    button.textContent = isSending ? 'Sending…' : button.dataset.originalText;
+  };
+
+  const sendInquiry = async (form, mode = 'home') => {
+    const payload = serializeInquiry(form, mode);
+
+    if (payload.companyWebsite) {
+      // Honeypot field. Act successful so bots do not learn the rule.
+      form.reset();
+      showToast('Inquiry sent. We’ll be in touch soon.');
+      return;
+    }
+
+    if (!payload.name || !payload.email) {
       showToast('Please add your name and email.');
       return;
     }
 
-    const eventType = data.get('eventType') || data.get('serviceType') || 'Event';
-    const lines = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Phone: ${data.get('phone') || '—'}`,
-      `Event type: ${eventType}`,
-      `Event date: ${data.get('eventDate') || '—'}`,
-      data.get('eventTime') ? `Event time: ${data.get('eventTime')}` : null,
-      `Venue / location: ${data.get('venue') || '—'}`,
-      `Desired performance time: ${data.get('duration') || '—'}`,
-      `Music style or song requests: ${data.get('musicStyle') || '—'}`,
-      data.get('contactMethod') ? `Preferred contact method: ${data.get('contactMethod')}` : null,
-      '',
-      'Event notes:',
-      data.get('message') || '—'
-    ].filter(Boolean);
+    if (!isValidEmail(payload.email)) {
+      showToast('Please enter a valid email address.');
+      return;
+    }
 
-    const subjectPrefix = mode === 'quote' ? 'Quote request' : 'New inquiry';
-    const subject = encodeURIComponent(`${subjectPrefix} — ${eventType} — ${name}`);
-    const body = encodeURIComponent(lines.join('\n'));
+    setSubmitState(form, true);
 
-    window.location.href = `mailto:hello@castanedastrings.com?subject=${subject}&body=${body}`;
-    showToast('Opening your email to send the inquiry.');
+    try {
+      const response = await fetch('/api/send-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Unable to send inquiry.');
+      }
+
+      form.reset();
+      showToast('Inquiry sent. We’ll be in touch soon.');
+    } catch (error) {
+      console.error('Inquiry send failed:', error);
+      showToast('Something went wrong. Please email hello@castanedastrings.com.');
+    } finally {
+      setSubmitState(form, false);
+    }
   };
 
   document.querySelectorAll('.inquiry-form').forEach((form) => {

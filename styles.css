@@ -1426,3 +1426,66 @@ details p { max-width: 650px; margin: 0.75rem 0 0; }
   .site-header-logo { height: 38px; }
   .occasion-grid span { white-space: normal; }
 }
+
+/* ============================================================
+   Final mobile form fix: prevent iOS date controls from overflowing
+   ============================================================ */
+.field,
+.form-row,
+.datetime-row {
+  min-width: 0;
+}
+.field input,
+.field select,
+.field textarea,
+.quote-form input,
+.quote-form select,
+.quote-form textarea {
+  display: block;
+  max-width: 100%;
+  min-width: 0;
+}
+.field input[type="date"],
+.quote-form input[type="date"],
+.datetime-row input[type="date"] {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+  text-align-last: left;
+}
+.field input[type="date"]::-webkit-date-and-time-value,
+.quote-form input[type="date"]::-webkit-date-and-time-value,
+.datetime-row input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+@media (max-width: 640px) {
+  .inquiry-form,
+  .quote-form-panel {
+    overflow: hidden;
+  }
+  .field input[type="date"],
+  .quote-form input[type="date"],
+  .datetime-row input[type="date"] {
+    padding-inline: 0.9rem;
+  }
+}
+
+/* Resend inquiry form states */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+button[disabled],
+.btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
