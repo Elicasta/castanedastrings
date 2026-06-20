@@ -1,159 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Request a Quote | Castaneda Strings</title>
-<meta name="description" content="Request a personalized quote for live violin music at your wedding, ceremony, proposal, or event." />
-<link rel="icon" type="image/png" href="../assets/logo-badge-trimmed.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request a Quote | Castaneda Strings</title>
+  <meta name="description" content="Request a personalized quote for live violin music at your wedding, private celebration, church event, or corporate gathering." />
+  <link rel="icon" type="image/png" href="../assets/logo-badge-trimmed.png" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
+  <div class="grain" aria-hidden="true"></div>
 
-<div class="grain"></div>
-
-<header class="site-header quote-header">
-  <div class="site-header-inner">
-    <a class="site-brand" href="../index.html" aria-label="Castaneda Strings home">
-      <img class="site-header-logo" src="../assets/logo-badge-trimmed.png" alt="Castaneda Strings" />
-      <span class="site-brand-name">Castaneda Strings</span>
-    </a>
-  </div>
-</header>
-
-<main class="quote-main">
-  <div class="wrap">
-
-    <div class="quote-intro">
-      <div class="reveal">
-        <span class="eyebrow">Request Your Quote</span>
-        <h1>Let's Bring Music to Your Event</h1>
-        <p class="quote-sub">Share a few details below and we'll follow up with availability and a personalized quote for your day.</p>
-      </div>
-      <div class="quote-photo reveal">
-        <figure>
-          <img src="../assets/hero-black-dress.jpg" alt="Rebecca Castaneda performing violin on a garden pathway" />
-        </figure>
-      </div>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="site-brand" href="../index.html" aria-label="Castaneda Strings home">
+        <img class="site-header-logo" src="../assets/logo-badge-trimmed.png" alt="Castaneda Strings" />
+      </a>
+      <nav class="site-header-bar" aria-label="Primary navigation">
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#services">Services</a>
+        <a href="../index.html#investment">Investment</a>
+        <a href="../index.html#rebecca">Rebecca</a>
+      </nav>
+      <a class="site-header-meta" href="../index.html">Back Home</a>
     </div>
+  </header>
 
-    <div class="quote-form-panel reveal">
-      <span class="eyebrow">Event Details</span>
-      <h2>Tell us a little about your day</h2>
+  <main class="quote-main">
+    <div class="wrap">
+      <section class="quote-intro reveal" aria-labelledby="quote-title">
+        <p class="label">Request a Quote</p>
+        <h1 class="display display-lg" id="quote-title">Tell us the moment you are building.</h1>
+        <p class="quote-sub">Share the date, venue, event type, desired performance time, and any special requests. We’ll follow up with availability and a personalized proposal.</p>
+        <div class="quote-photo">
+          <img src="../assets/hero-black-dress.jpg" alt="Rebecca Castaneda performing violin outdoors" />
+        </div>
+      </section>
 
-      <form class="quote-form" novalidate>
-        <div class="form-row">
+      <section class="quote-form-panel reveal" aria-label="Quote request form">
+        <p class="label">Event Details</p>
+        <h2>Let’s create something beautiful.</h2>
+
+        <form class="quote-form" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="serviceType">Type of service</label>
+              <select id="serviceType" name="serviceType" required>
+                <option value="">Select one</option>
+                <option>Wedding Ceremony</option>
+                <option>Wedding Ceremony + Cocktail Hour</option>
+                <option>Luxury Wedding Collection</option>
+                <option>Engagement Party</option>
+                <option>Bridal Shower</option>
+                <option>Baby Shower</option>
+                <option>Baptism</option>
+                <option>Anniversary</option>
+                <option>Birthday Celebration</option>
+                <option>Quinceañera</option>
+                <option>Corporate / Brand Event</option>
+                <option>Private Dinner</option>
+                <option>Church Event</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="duration">Desired performance time</label>
+              <select id="duration" name="duration" required>
+                <option value="">Select one</option>
+                <option>Ceremony only</option>
+                <option>1 Hour</option>
+                <option>2 Hours</option>
+                <option>3+ Hours</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+
           <div class="field">
-            <label for="serviceType">Type of service</label>
-            <select id="serviceType" name="serviceType" required>
-              <option value="">Select one</option>
-              <option>Ceremony</option>
-              <option>Ceremony + Cocktail Hour</option>
-              <option>Proposal</option>
-              <option>Signature Cinematic Experience</option>
-              <option>Other</option>
-            </select>
+            <label for="eventDate">Event date &amp; time</label>
+            <div class="datetime-row">
+              <input type="date" id="eventDate" name="eventDate" required aria-label="Event date" />
+              <input type="time" id="eventTime" name="eventTime" aria-label="Event time" />
+            </div>
           </div>
+
           <div class="field">
-            <label for="duration">How long will you need a violinist?</label>
-            <select id="duration" name="duration" required>
-              <option value="">Select one</option>
-              <option>1 Hour</option>
-              <option>2 Hours</option>
-              <option>3 Hours</option>
-              <option>4+ Hours</option>
-              <option>Not sure yet</option>
-            </select>
+            <label for="venue">Event location</label>
+            <input type="text" id="venue" name="venue" placeholder="Venue, city, or address" required />
           </div>
-        </div>
 
-        <div class="field">
-          <label for="eventDate">Event date &amp; time</label>
-          <div class="datetime-row">
-            <input type="date" id="eventDate" name="eventDate" required aria-label="Event date" />
-            <input type="time" id="eventTime" name="eventTime" required aria-label="Event time" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="venue">Event location (venue / address)</label>
-          <input type="text" id="venue" name="venue" required />
-        </div>
-
-        <div class="field">
-          <label for="musicStyle">Preferred music style or songs</label>
-          <input type="text" id="musicStyle" name="musicStyle" placeholder="Classical, worship, first dance song, etc." />
-        </div>
-
-        <div class="field">
-          <label for="message">Any special requests or details?</label>
-          <textarea id="message" name="message"></textarea>
-        </div>
-
-        <div class="form-row">
           <div class="field">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required />
+            <label for="musicStyle">Special song requests</label>
+            <input type="text" id="musicStyle" name="musicStyle" placeholder="Canon in D, worship, romantic, Latin, etc." />
           </div>
-          <div class="field">
-            <label for="phone">Phone number</label>
-            <input type="tel" id="phone" name="phone" required />
-          </div>
-        </div>
 
-        <div class="form-row">
           <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
+            <label for="message">Any special requests or details?</label>
+            <textarea id="message" name="message"></textarea>
           </div>
-          <div class="field">
-            <label for="contactMethod">Preferred method of contact</label>
-            <select id="contactMethod" name="contactMethod" required>
-              <option value="">Select one</option>
-              <option>Phone Call</option>
-              <option>Text Message</option>
-              <option>Email</option>
-            </select>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" />
+            </div>
           </div>
-        </div>
 
-        <div class="form-foot">
-          <button type="submit" class="btn">Send Inquiry</button>
-        </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="contactMethod">Preferred contact method</label>
+              <select id="contactMethod" name="contactMethod">
+                <option value="">Select one</option>
+                <option>Phone Call</option>
+                <option>Text Message</option>
+                <option>Email</option>
+              </select>
+            </div>
+          </div>
 
-        <p class="quote-closing">Thank you for thinking of Castaneda Strings for your event. We read every inquiry personally and will follow up within 1–2 business days with availability and next steps.</p>
-      </form>
+          <div class="form-foot">
+            <button type="submit" class="btn btn-primary">Send Inquiry</button>
+            <span>We’ll follow up directly by email.</span>
+          </div>
+        </form>
+      </section>
     </div>
+  </main>
 
-  </div>
-</main>
-
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-grid">
+  <footer class="site-footer">
+    <div class="footer-inner">
       <div>
-        <img class="footer-mark" src="../assets/logo-stacked-trimmed.png" alt="Castaneda Strings" />
-        <p class="footer-tagline">Live strings for weddings, celebrations, and meaningful gatherings.</p>
+        <strong>Castaneda Strings</strong>
+        <p>Live strings for weddings, celebrations, and meaningful gatherings.</p>
       </div>
-      <div class="footer-contact">
+      <div>
         <a href="mailto:hello@castanedastrings.com">hello@castanedastrings.com</a>
         <a href="https://instagram.com/castanedastrings" target="_blank" rel="noopener">@castanedastrings</a>
       </div>
+      <div>
+        <span>Miami, Florida</span>
+        <span>Serving South Florida weddings & events.</span>
+      </div>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; <span data-year>2026</span> Castaneda Strings. All rights reserved.</span>
-      <span>Miami &amp; South Florida</span>
-    </div>
-  </div>
-</footer>
+    <div class="footer-bottom">© <span data-year></span> Castaneda Strings. All rights reserved.</div>
+  </footer>
 
-<div class="toast" role="status" aria-live="polite"></div>
-
-<script src="../script.js"></script>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="../script.js"></script>
 </body>
 </html>
