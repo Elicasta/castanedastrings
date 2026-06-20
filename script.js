@@ -1,119 +1,114 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('[data-header]');
+  const menuButton = document.querySelector('[data-menu-button]');
+  const mobileNav = document.querySelector('[data-mobile-nav]');
+  const toast = document.querySelector('[data-toast]');
+  const form = document.querySelector('[data-form]');
 
-  /* ---------- Sticky header ---------- */
-  const header = document.querySelector('.site-header');
-  const onScroll = () => {
-    header.classList.toggle('is-scrolled', window.scrollY > 60);
+  const setHeaderState = () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 36);
   };
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  setHeaderState();
+  window.addEventListener('scroll', setHeaderState, { passive: true });
 
-  /* ---------- Mobile menu ---------- */
-  const toggle = document.querySelector('.nav-toggle');
-  const mobileMenu = document.querySelector('.mobile-menu');
-  toggle.addEventListener('click', () => {
-    const open = toggle.classList.toggle('is-open');
-    mobileMenu.classList.toggle('is-open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
+  const closeMenu = () => {
+    menuButton?.classList.remove('is-open');
+    mobileNav?.classList.remove('is-open');
+    menuButton?.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  };
+
+  menuButton?.addEventListener('click', () => {
+    const isOpen = !menuButton.classList.contains('is-open');
+    menuButton.classList.toggle('is-open', isOpen);
+    mobileNav?.classList.toggle('is-open', isOpen);
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    document.body.classList.toggle('menu-open', isOpen);
   });
-  mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      toggle.classList.remove('is-open');
-      mobileMenu.classList.remove('is-open');
-      document.body.style.overflow = '';
-    });
+
+  mobileNav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
   });
 
-  /* ---------- Hero reveal ---------- */
-  document.querySelector('.hero-string')?.classList.add('play');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMenu();
+  });
 
-  /* ---------- Scroll reveal ---------- */
-  const revealEls = document.querySelectorAll('.reveal');
+  const revealElements = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-    revealEls.forEach(el => io.observe(el));
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealElements.forEach((element) => observer.observe(element));
   } else {
-    revealEls.forEach(el => el.classList.add('is-visible'));
+    revealElements.forEach((element) => element.classList.add('is-visible'));
   }
 
-  /* ---------- FAQ accordion ---------- */
-  document.querySelectorAll('.faq-item').forEach(item => {
-    const btn = item.querySelector('.faq-q');
-    const answer = item.querySelector('.faq-a');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.addEventListener('click', () => {
-      const isOpen = item.classList.contains('is-open');
-      document.querySelectorAll('.faq-item.is-open').forEach(other => {
-        if (other !== item) {
-          other.classList.remove('is-open');
-          other.querySelector('.faq-a').style.maxHeight = null;
-          other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-        }
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    const button = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+
+    button?.addEventListener('click', () => {
+      const shouldOpen = !item.classList.contains('is-open');
+
+      document.querySelectorAll('.faq-item.is-open').forEach((openItem) => {
+        if (openItem === item) return;
+        openItem.classList.remove('is-open');
+        openItem.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
+        const openAnswer = openItem.querySelector('.faq-answer');
+        if (openAnswer) openAnswer.style.maxHeight = null;
       });
-      if (isOpen) {
-        item.classList.remove('is-open');
-        answer.style.maxHeight = null;
-        btn.setAttribute('aria-expanded', 'false');
-      } else {
-        item.classList.add('is-open');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-        btn.setAttribute('aria-expanded', 'true');
-      }
+
+      item.classList.toggle('is-open', shouldOpen);
+      button.setAttribute('aria-expanded', String(shouldOpen));
+      if (answer) answer.style.maxHeight = shouldOpen ? `${answer.scrollHeight}px` : null;
     });
   });
 
-  /* ---------- Contact form ---------- */
-  const form = document.querySelector('.proposal-form');
-  const toast = document.querySelector('.toast');
-  const showToast = (msg) => {
-    toast.textContent = msg;
+  const showToast = (message) => {
+    if (!toast) return;
+    toast.textContent = message;
     toast.classList.add('is-visible');
-    setTimeout(() => toast.classList.remove('is-visible'), 3600);
+    window.setTimeout(() => toast.classList.remove('is-visible'), 3600);
   };
 
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const data = new FormData(form);
-      const name = (data.get('name') || '').trim();
-      const email = (data.get('email') || '').trim();
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') || '').trim();
+    const email = String(data.get('email') || '').trim();
 
-      if (!name || !email) {
-        showToast('Please add your name and email.');
-        return;
-      }
+    if (!name || !email) {
+      showToast('Add your name and email first.');
+      return;
+    }
 
-      const lines = [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `Phone: ${data.get('phone') || '—'}`,
-        `Event date: ${data.get('eventDate') || '—'}`,
-        `Venue: ${data.get('venue') || '—'}`,
-        `Event type: ${data.get('eventType') || '—'}`,
-        `Performance length: ${data.get('duration') || '—'}`,
-        '',
-        'Special requests:',
-        data.get('message') || '—'
-      ];
+    const eventType = String(data.get('eventType') || 'Event').trim() || 'Event';
+    const lines = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Phone: ${data.get('phone') || '—'}`,
+      `Event date: ${data.get('eventDate') || '—'}`,
+      `Venue / location: ${data.get('venue') || '—'}`,
+      `Event type: ${eventType}`,
+      `Performance length: ${data.get('duration') || '—'}`,
+      `Best contact method: ${data.get('contactMethod') || 'Email'}`,
+      '',
+      'Special requests:',
+      `${data.get('message') || '—'}`
+    ];
 
-      const subject = encodeURIComponent(`New inquiry — ${data.get('eventType') || 'Event'} — ${name}`);
-      const body = encodeURIComponent(lines.join('\n'));
-      const mailto = `mailto:hello@castanedastrings.com?subject=${subject}&body=${body}`;
+    const subject = encodeURIComponent(`Castaneda Strings Inquiry — ${eventType} — ${name}`);
+    const body = encodeURIComponent(lines.join('\n'));
+    window.location.href = `mailto:hello@castanedastrings.com?subject=${subject}&body=${body}`;
+    showToast('Opening your email with the inquiry prepared.');
+  });
 
-      window.location.href = mailto;
-      showToast('Opening your email to send the inquiry…');
-    });
-  }
-
-  /* ---------- Footer year ---------- */
-  const yearEl = document.querySelector('[data-year]');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
+  const year = document.querySelector('[data-year]');
+  if (year) year.textContent = String(new Date().getFullYear());
 });
