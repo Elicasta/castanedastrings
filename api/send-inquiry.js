@@ -19,9 +19,9 @@ function isValidEmail(email = '') {
   return /^\S+@\S+\.\S+$/.test(email);
 }
 
-function parseRecipientList(value = '', fallback = '') {
-  return String(value || fallback)
-    .split(/[,;\n]+/)
+function parseEmailList(value = '') {
+  return String(value || '')
+    .split(',')
     .map((email) => email.trim())
     .filter(Boolean);
 }
@@ -118,13 +118,21 @@ module.exports = async function handler(req, res) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmails = parseRecipientList(process.env.INQUIRY_TO_EMAIL || process.env.RESEND_TO_EMAIL, 'castanedaeli0@gmail.com');
-  const ccEmails = parseRecipientList(process.env.INQUIRY_CC_EMAILS);
-  const bccEmails = parseRecipientList(process.env.INQUIRY_BCC_EMAILS);
+  const toEmails = parseEmailList(process.env.INQUIRY_TO_EMAIL || process.env.RESEND_TO_EMAIL || 'castanedaeli0@gmail.com');
+  const ccEmails = parseEmailList(process.env.INQUIRY_CC_EMAILS || '');
+  const bccEmails = parseEmailList(process.env.INQUIRY_BCC_EMAILS || '');
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'Castaneda Strings <onboarding@resend.dev>';
 
   if (!apiKey) {
     return res.status(500).json({ error: 'Missing RESEND_API_KEY environment variable.' });
+  }
+
+  if (!toEmails.length || toEmails.some((email) => !isValidEmail(email))) {
+    return res.status(500).json({ error: 'INQUIRY_TO_EMAIL must include at least one valid email address.' });
+  }
+
+  if (ccEmails.some((email) => !isValidEmail(email)) || bccEmails.some((email) => !isValidEmail(email))) {
+    return res.status(500).json({ error: 'INQUIRY_CC_EMAILS and INQUIRY_BCC_EMAILS must only include valid email addresses.' });
   }
 
   const body = typeof req.body === 'object' && req.body !== null ? req.body : {};
@@ -163,14 +171,13 @@ module.exports = async function handler(req, res) {
   const resendPayload = {
     from: fromEmail,
     to: toEmails,
+    ...(ccEmails.length ? { cc: ccEmails } : {}),
+    ...(bccEmails.length ? { bcc: bccEmails } : {}),
     reply_to: payload.email,
     subject,
     html: buildEmailHtml(payload),
     text: buildEmailText(payload)
   };
-
-  if (ccEmails.length) resendPayload.cc = ccEmails;
-  if (bccEmails.length) resendPayload.bcc = bccEmails;
 
   try {
     const resendResponse = await fetch(RESEND_API_URL, {
