@@ -19,6 +19,13 @@ function isValidEmail(email = '') {
   return /^\S+@\S+\.\S+$/.test(email);
 }
 
+function parseRecipientList(value = '', fallback = '') {
+  return String(value || fallback)
+    .split(/[,;\n]+/)
+    .map((email) => email.trim())
+    .filter(Boolean);
+}
+
 function formatDate(value = '') {
   if (!value) return '—';
   const date = new Date(`${value}T00:00:00`);
@@ -111,7 +118,9 @@ module.exports = async function handler(req, res) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.INQUIRY_TO_EMAIL || process.env.RESEND_TO_EMAIL || 'castanedaeli0@gmail.com';
+  const toEmails = parseRecipientList(process.env.INQUIRY_TO_EMAIL || process.env.RESEND_TO_EMAIL, 'castanedaeli0@gmail.com');
+  const ccEmails = parseRecipientList(process.env.INQUIRY_CC_EMAILS);
+  const bccEmails = parseRecipientList(process.env.INQUIRY_BCC_EMAILS);
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'Castaneda Strings <onboarding@resend.dev>';
 
   if (!apiKey) {
@@ -153,12 +162,15 @@ module.exports = async function handler(req, res) {
 
   const resendPayload = {
     from: fromEmail,
-    to: [toEmail],
+    to: toEmails,
     reply_to: payload.email,
     subject,
     html: buildEmailHtml(payload),
     text: buildEmailText(payload)
   };
+
+  if (ccEmails.length) resendPayload.cc = ccEmails;
+  if (bccEmails.length) resendPayload.bcc = bccEmails;
 
   try {
     const resendResponse = await fetch(RESEND_API_URL, {
