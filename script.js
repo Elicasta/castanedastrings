@@ -25,8 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ---------- Hero reveal ---------- */
-  document.querySelector('.hero-mark')?.classList.add('reveal-mark');
-  document.querySelector('.bow-line')?.classList.add('draw');
+  document.querySelector('.hero-string')?.classList.add('play');
 
   /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll('.reveal');

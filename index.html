@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="styles.css" />
 </head>
@@ -28,7 +28,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#contact" class="btn btn-solid">Inquire Now</a>
+    <a href="#contact" class="btn btn-light">Inquire Now</a>
   </nav>
   <button class="nav-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
 </header>
@@ -48,7 +48,9 @@
   <section class="hero">
     <img class="hero-img" src="assets/hero-black-dress.jpg" alt="Rebecca Castaneda performing violin in formal black dress on a garden pathway" />
     <div class="hero-content">
-      <img class="hero-mark" src="assets/mark-trimmed.png" alt="" />
+      <svg class="hero-string" viewBox="0 0 220 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M0,14 C18,2 36,26 55,8 C73,-6 92,30 110,14 C128,-2 146,28 165,10 C183,-4 202,26 220,14" />
+      </svg>
       <h1>
         <span class="line"><span>Live Music for Life's</span></span>
         <span class="line"><span>Most Meaningful Moments</span></span>
@@ -56,7 +58,7 @@
       <p class="hero-sub">Elegant violin performances for weddings, private celebrations, and luxury events throughout South Florida.</p>
       <div class="hero-cta">
         <a href="#contact" class="btn btn-solid">Inquire Now</a>
-        <a href="#services" class="btn">View Services</a>
+        <a href="#services" class="btn btn-light">View Services</a>
       </div>
     </div>
     <span class="scroll-cue">Scroll</span>
@@ -68,7 +70,7 @@
       <div class="experience-copy reveal">
         <span class="eyebrow">The Experience</span>
         <h2 style="margin-bottom:1.3rem;">More Than Background Music</h2>
-        <p>Music has a way of transforming a moment. <em>The first steps down the aisle. The quiet anticipation before a proposal. A room filled with family and friends, celebrating together.</em></p>
+        <p>Music has a way of transforming a moment. The first steps down the aisle. The quiet anticipation before a proposal. A room filled with family and friends, celebrating together.</p>
         <p>Castaneda Strings provides live violin performances that bring warmth, elegance, and intention to these moments. Each event is thoughtfully arranged to complement your vision, creating an atmosphere that feels both personal and unforgettable.</p>
       </div>
       <div class="experience-moments reveal">
@@ -80,48 +82,52 @@
   </section>
 
   <!-- SERVICES -->
-  <section class="services" id="services">
+  <section class="services alt-bg" id="services">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Services</span>
         <h2>Music for Every Occasion</h2>
         <p>From an intimate ceremony to a full evening of celebration, every performance is built around the moments that matter to you.</p>
       </div>
-    </div>
-    <div class="wrap" style="padding:0;">
-      <div class="services-grid">
-        <div class="service-col reveal">
+      <div class="services-list">
+        <div class="service-row reveal">
           <h3>Weddings</h3>
-          <p>Live violin music adds a timeless, romantic touch to every part of your day, from the ceremony through the reception.</p>
-          <ul>
-            <li>Ceremony music</li>
-            <li>Cocktail hour performance</li>
-            <li>Reception highlights</li>
-            <li>Custom song selections</li>
-            <li>Planner coordination</li>
-          </ul>
+          <div class="service-text">
+            <p>Live violin music adds a timeless, romantic touch to every part of your day, from the ceremony through the reception.</p>
+            <ul>
+              <li>Ceremony music</li>
+              <li>Cocktail hour</li>
+              <li>Reception highlights</li>
+              <li>Custom song selections</li>
+              <li>Planner coordination</li>
+            </ul>
+          </div>
         </div>
-        <div class="service-col reveal">
+        <div class="service-row reveal">
           <h3>Private Celebrations</h3>
-          <p>Whether marking a milestone or gathering loved ones close, live music creates an experience your guests will remember.</p>
-          <ul>
-            <li>Engagement parties</li>
-            <li>Bridal &amp; baby showers</li>
-            <li>Baptisms</li>
-            <li>Anniversaries</li>
-            <li>Birthdays &amp; quinceañeras</li>
-          </ul>
+          <div class="service-text">
+            <p>Whether marking a milestone or gathering loved ones close, live music creates an experience your guests will remember.</p>
+            <ul>
+              <li>Engagement parties</li>
+              <li>Bridal &amp; baby showers</li>
+              <li>Baptisms</li>
+              <li>Anniversaries</li>
+              <li>Birthdays &amp; quinceañeras</li>
+            </ul>
+          </div>
         </div>
-        <div class="service-col reveal">
+        <div class="service-row reveal">
           <h3>Corporate &amp; Brand Events</h3>
-          <p>Create a refined atmosphere for your guests, clients, and team with live music that sets the tone the moment they walk in.</p>
-          <ul>
-            <li>Brand launches</li>
-            <li>Corporate gatherings</li>
-            <li>Networking events</li>
-            <li>Luxury dinners</li>
-            <li>Holiday &amp; private receptions</li>
-          </ul>
+          <div class="service-text">
+            <p>Create a refined atmosphere for your guests, clients, and team with live music that sets the tone the moment they walk in.</p>
+            <ul>
+              <li>Brand launches</li>
+              <li>Corporate gatherings</li>
+              <li>Networking events</li>
+              <li>Luxury dinners</li>
+              <li>Holiday receptions</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -161,7 +167,7 @@
   </section>
 
   <!-- FEATURED MUSIC -->
-  <section class="music">
+  <section class="music alt-bg">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Featured Music</span>
@@ -188,12 +194,12 @@
   <!-- INVESTMENT -->
   <section class="investment" id="investment">
     <div class="wrap">
-      <div class="section-head center reveal">
+      <div class="section-head reveal">
         <span class="eyebrow">Investment</span>
         <h2>Wedding &amp; Event Collections</h2>
-        <p class="center">Every collection is tailored to your date, venue, and vision. Full pricing arrives with your personalized proposal.</p>
+        <p>Every collection is tailored to your date, venue, and vision. Full pricing arrives with your personalized proposal.</p>
       </div>
-      <div class="program reveal" style="max-width:760px; margin:0 auto;">
+      <div class="program reveal">
         <div class="program-row">
           <span class="name">Ceremony Collection</span>
           <span class="price"><small>Starting at</small>$495</span>
@@ -220,18 +226,21 @@
 
   <!-- TESTIMONIALS -->
   <section class="testimonials">
-    <div class="wrap testimonial-grid">
-      <div class="testimonial reveal">
-        <span class="mark">&ldquo;</span>
-        <p>Rebecca brought so much elegance to our ceremony. The music made the entire experience feel magical.</p>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Kind Words</span>
+        <h2>From Recent Events</h2>
       </div>
-      <div class="testimonial reveal">
-        <span class="mark">&ldquo;</span>
-        <p>Professional, talented, and wonderful to work with. Our guests are still talking about the violin performance.</p>
-      </div>
-      <div class="testimonial reveal">
-        <span class="mark">&ldquo;</span>
-        <p>The perfect addition to our wedding day. Every song felt personal and meaningful.</p>
+      <div class="testimonial-stack reveal">
+        <div class="testimonial">
+          <p><span class="mark">&ldquo;</span>Rebecca brought so much elegance to our ceremony. The music made the entire experience feel magical.</p>
+        </div>
+        <div class="testimonial">
+          <p><span class="mark">&ldquo;</span>Professional, talented, and wonderful to work with. Our guests are still talking about the violin performance.</p>
+        </div>
+        <div class="testimonial">
+          <p><span class="mark">&ldquo;</span>The perfect addition to our wedding day. Every song felt personal and meaningful.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -253,7 +262,7 @@
   </section>
 
   <!-- FAQ -->
-  <section class="faq" id="faq">
+  <section class="faq alt-bg" id="faq">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Questions</span>
