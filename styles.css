@@ -1489,3 +1489,49 @@ button[disabled],
   cursor: not-allowed;
   opacity: 0.62;
 }
+
+
+/* ============================================================
+   Final content cleanup: hero line length, one wedding rate,
+   testimonials quote marks, FAQ emphasis
+   ============================================================ */
+.hero-kicker {
+  max-width: 650px;
+}
+.hero-body {
+  max-width: 620px;
+}
+.pricing-composition .price-row-single {
+  border-bottom: 0;
+}
+.pricing-composition .price-row-single h4 {
+  max-width: none;
+}
+.testimonial-stack span {
+  display: none;
+}
+.testimonial-stack blockquote {
+  overflow: visible;
+}
+.testimonial-stack p {
+  padding-right: 0;
+}
+.faq-list strong {
+  color: var(--charcoal);
+  font-weight: 600;
+}
+@media (min-width: 1101px) {
+  .hero-copy {
+    max-width: 720px;
+  }
+  .hero-kicker {
+    font-size: clamp(1.35rem, 1.75vw, 1.7rem);
+    line-height: 1.35;
+  }
+}
+@media (max-width: 640px) {
+  .hero-kicker,
+  .hero-body {
+    max-width: 100%;
+  }
+}
