@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Request a Quote | Castaneda Strings</title>
+<meta name="description" content="Request a personalized quote for live violin music at your wedding, ceremony, proposal, or event." />
+<link rel="icon" type="image/png" href="../assets/logo-badge-trimmed.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header quote-header">
+  <a href="../index.html" aria-label="Castaneda Strings home">
+    <img class="brand-logo" src="../assets/logo-stacked-trimmed.png" alt="Castaneda Strings" />
+  </a>
+</header>
+
+<main class="quote-main">
+  <div class="wrap">
+
+    <div class="quote-intro">
+      <div class="reveal">
+        <span class="eyebrow">Request Your Quote</span>
+        <h1>Let's Bring Music to Your Event</h1>
+        <p class="quote-sub">Share a few details below and we'll follow up with availability and a personalized quote for your day.</p>
+      </div>
+      <div class="quote-photo reveal">
+        <figure>
+          <img src="../assets/hero-black-dress.jpg" alt="Rebecca Castaneda performing violin on a garden pathway" />
+        </figure>
+      </div>
+    </div>
+
+    <div class="quote-form-panel reveal">
+      <span class="eyebrow">Event Details</span>
+      <h2>Tell us a little about your day</h2>
+
+      <form class="quote-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="serviceType">Type of service</label>
+            <select id="serviceType" name="serviceType" required>
+              <option value="">Select one</option>
+              <option>Ceremony</option>
+              <option>Ceremony + Cocktail Hour</option>
+              <option>Proposal</option>
+              <option>Signature Cinematic Experience</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="duration">How long will you need a violinist?</label>
+            <select id="duration" name="duration" required>
+              <option value="">Select one</option>
+              <option>1 Hour</option>
+              <option>2 Hours</option>
+              <option>3 Hours</option>
+              <option>4+ Hours</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="eventDate">Event date &amp; time</label>
+          <div class="datetime-row">
+            <input type="date" id="eventDate" name="eventDate" required aria-label="Event date" />
+            <input type="time" id="eventTime" name="eventTime" required aria-label="Event time" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="venue">Event location (venue / address)</label>
+          <input type="text" id="venue" name="venue" required />
+        </div>
+
+        <div class="field">
+          <label for="musicStyle">Preferred music style or songs</label>
+          <input type="text" id="musicStyle" name="musicStyle" placeholder="Classical, worship, first dance song, etc." />
+        </div>
+
+        <div class="field">
+          <label for="message">Any special requests or details?</label>
+          <textarea id="message" name="message"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="field">
+            <label for="contactMethod">Preferred method of contact</label>
+            <select id="contactMethod" name="contactMethod" required>
+              <option value="">Select one</option>
+              <option>Phone Call</option>
+              <option>Text Message</option>
+              <option>Email</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-foot">
+          <button type="submit" class="btn">Send Inquiry</button>
+        </div>
+
+        <p class="quote-closing">Thank you for thinking of Castaneda Strings for your event. We read every inquiry personally and will follow up within 1–2 business days with availability and next steps.</p>
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <img class="footer-mark" src="../assets/logo-stacked-trimmed.png" alt="Castaneda Strings" />
+        <p class="footer-tagline">Live strings for weddings, celebrations, and meaningful gatherings.</p>
+      </div>
+      <div class="footer-contact">
+        <a href="mailto:hello@castanedastrings.com">hello@castanedastrings.com</a>
+        <a href="https://instagram.com/castanedastrings" target="_blank" rel="noopener">@castanedastrings</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Castaneda Strings. All rights reserved.</span>
+      <span>Miami &amp; South Florida</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script src="../script.js"></script>
+</body>
+</html>

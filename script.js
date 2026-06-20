@@ -1,20 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ---------- Sticky header state ---------- */
+  const header = document.querySelector('.site-header');
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 60);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
   /* ---------- Mobile menu ---------- */
   const toggle = document.querySelector('.nav-toggle');
   const mobileMenu = document.querySelector('.mobile-menu');
-  toggle.addEventListener('click', () => {
-    const open = toggle.classList.toggle('is-open');
-    mobileMenu.classList.toggle('is-open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-  mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      toggle.classList.remove('is-open');
-      mobileMenu.classList.remove('is-open');
-      document.body.style.overflow = '';
+  if (toggle && mobileMenu) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.classList.toggle('is-open');
+      mobileMenu.classList.toggle('is-open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
     });
-  });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        toggle.classList.remove('is-open');
+        mobileMenu.classList.remove('is-open');
+        document.body.style.overflow = '';
+      });
+    });
+  }
 
   /* ---------- Hero entrance ---------- */
   requestAnimationFrame(() => {
@@ -72,6 +80,42 @@ document.addEventListener('DOMContentLoaded', () => {
       ];
 
       const subject = encodeURIComponent(`New inquiry — ${data.get('eventType') || 'Event'} — ${name}`);
+      const body = encodeURIComponent(lines.join('\n'));
+      window.location.href = `mailto:hello@castanedastrings.com?subject=${subject}&body=${body}`;
+      showToast('Opening your email to send the inquiry…');
+    });
+  }
+
+  /* ---------- Quote page form ---------- */
+  const quoteForm = document.querySelector('.quote-form');
+  if (quoteForm) {
+    quoteForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(quoteForm);
+      const name = (data.get('name') || '').trim();
+      const email = (data.get('email') || '').trim();
+
+      if (!name || !email) {
+        showToast('Please add your name and email.');
+        return;
+      }
+
+      const lines = [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Phone: ${data.get('phone') || '—'}`,
+        `Type of service: ${data.get('serviceType') || '—'}`,
+        `Event date & time: ${data.get('eventDate') || '—'} ${data.get('eventTime') || ''}`.trim(),
+        `Event location: ${data.get('venue') || '—'}`,
+        `Performance length: ${data.get('duration') || '—'}`,
+        `Preferred music style or songs: ${data.get('musicStyle') || '—'}`,
+        `Preferred method of contact: ${data.get('contactMethod') || '—'}`,
+        '',
+        'Special requests or details:',
+        data.get('message') || '—'
+      ];
+
+      const subject = encodeURIComponent(`Quote request — ${data.get('serviceType') || 'Event'} — ${name}`);
       const body = encodeURIComponent(lines.join('\n'));
       window.location.href = `mailto:hello@castanedastrings.com?subject=${subject}&body=${body}`;
       showToast('Opening your email to send the inquiry…');
