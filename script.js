@@ -1,72 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const header = document.querySelector('[data-header]');
-  const menuButton = document.querySelector('[data-menu-button]');
-  const mobileNav = document.querySelector('[data-mobile-nav]');
-  const toast = document.querySelector('[data-toast]');
-  const form = document.querySelector('[data-form]');
+  const header = document.querySelector('.site-header');
+  const toggle = document.querySelector('.nav-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const form = document.querySelector('.proposal-form');
+  const toast = document.querySelector('.toast');
 
-  const setHeaderState = () => {
-    header?.classList.toggle('is-scrolled', window.scrollY > 36);
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 20);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const setMenu = (open) => {
+    toggle?.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    mobileMenu?.classList.toggle('is-open', open);
+    mobileMenu?.setAttribute('aria-hidden', String(!open));
+    document.body.style.overflow = open ? 'hidden' : '';
   };
-  setHeaderState();
-  window.addEventListener('scroll', setHeaderState, { passive: true });
 
-  const closeMenu = () => {
-    menuButton?.classList.remove('is-open');
-    mobileNav?.classList.remove('is-open');
-    menuButton?.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('menu-open');
-  };
+  toggle?.addEventListener('click', () => setMenu(!toggle.classList.contains('is-open')));
+  mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
 
-  menuButton?.addEventListener('click', () => {
-    const isOpen = !menuButton.classList.contains('is-open');
-    menuButton.classList.toggle('is-open', isOpen);
-    mobileNav?.classList.toggle('is-open', isOpen);
-    menuButton.setAttribute('aria-expanded', String(isOpen));
-    document.body.classList.toggle('menu-open', isOpen);
-  });
-
-  mobileNav?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMenu();
-  });
-
-  const revealElements = document.querySelectorAll('.reveal');
+  const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    revealElements.forEach((element) => observer.observe(element));
+    }, { threshold: 0.12, rootMargin: '0px 0px -24px 0px' });
+    revealEls.forEach((el) => observer.observe(el));
   } else {
-    revealElements.forEach((element) => element.classList.add('is-visible'));
+    revealEls.forEach((el) => el.classList.add('is-visible'));
   }
 
   document.querySelectorAll('.faq-item').forEach((item) => {
-    const button = item.querySelector('.faq-question');
-    const answer = item.querySelector('.faq-answer');
+    const button = item.querySelector('.faq-q');
+    const answer = item.querySelector('.faq-a');
+    button?.setAttribute('aria-expanded', 'false');
 
     button?.addEventListener('click', () => {
-      const shouldOpen = !item.classList.contains('is-open');
-
+      const isOpen = item.classList.contains('is-open');
       document.querySelectorAll('.faq-item.is-open').forEach((openItem) => {
         if (openItem === item) return;
         openItem.classList.remove('is-open');
-        openItem.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
-        const openAnswer = openItem.querySelector('.faq-answer');
+        openItem.querySelector('.faq-q')?.setAttribute('aria-expanded', 'false');
+        const openAnswer = openItem.querySelector('.faq-a');
         if (openAnswer) openAnswer.style.maxHeight = null;
       });
 
-      item.classList.toggle('is-open', shouldOpen);
-      button.setAttribute('aria-expanded', String(shouldOpen));
-      if (answer) answer.style.maxHeight = shouldOpen ? `${answer.scrollHeight}px` : null;
+      item.classList.toggle('is-open', !isOpen);
+      button.setAttribute('aria-expanded', String(!isOpen));
+      answer.style.maxHeight = isOpen ? null : `${answer.scrollHeight}px`;
     });
   });
 
@@ -74,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!toast) return;
     toast.textContent = message;
     toast.classList.add('is-visible');
-    window.setTimeout(() => toast.classList.remove('is-visible'), 3600);
+    window.setTimeout(() => toast.classList.remove('is-visible'), 3200);
   };
 
   form?.addEventListener('submit', (event) => {
@@ -88,27 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const eventType = String(data.get('eventType') || 'Event').trim() || 'Event';
     const lines = [
       `Name: ${name}`,
       `Email: ${email}`,
       `Phone: ${data.get('phone') || '—'}`,
       `Event date: ${data.get('eventDate') || '—'}`,
-      `Venue / location: ${data.get('venue') || '—'}`,
-      `Event type: ${eventType}`,
-      `Performance length: ${data.get('duration') || '—'}`,
-      `Best contact method: ${data.get('contactMethod') || 'Email'}`,
+      `Venue: ${data.get('venue') || '—'}`,
+      `Event type: ${data.get('eventType') || '—'}`,
       '',
-      'Special requests:',
-      `${data.get('message') || '—'}`
+      'Message:',
+      data.get('message') || '—'
     ];
 
-    const subject = encodeURIComponent(`Castaneda Strings Inquiry — ${eventType} — ${name}`);
+    const subject = encodeURIComponent(`Castaneda Strings inquiry — ${name}`);
     const body = encodeURIComponent(lines.join('\n'));
     window.location.href = `mailto:hello@castanedastrings.com?subject=${subject}&body=${body}`;
-    showToast('Opening your email with the inquiry prepared.');
+    showToast('Opening your email app.');
   });
 
   const year = document.querySelector('[data-year]');
-  if (year) year.textContent = String(new Date().getFullYear());
+  if (year) year.textContent = new Date().getFullYear();
 });
