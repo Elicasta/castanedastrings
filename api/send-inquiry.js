@@ -151,6 +151,56 @@ function subjectTag(payload) {
   return parts.length ? ` [${parts.join(' / ')}]` : '';
 }
 
+function buildAdminMessage(payload) {
+  const lines = [];
+  if (payload.message) lines.push(payload.message, '');
+  lines.push('--- Submitted details ---');
+  if (payload.eventTime) lines.push(`Event time: ${payload.eventTime}`);
+  if (payload.duration) lines.push(`Desired performance time: ${payload.duration}`);
+  if (payload.musicStyle) lines.push(`Song requests: ${payload.musicStyle}`);
+  if (payload.contactMethod) lines.push(`Preferred contact: ${payload.contactMethod}`);
+  if (payload.source) lines.push(`Form location: ${payload.source}`);
+  if (payload.leadSource && payload.leadSource !== 'Direct / Website') {
+    lines.push(`Lead source: ${payload.leadSource}${payload.leadMedium ? ` / ${payload.leadMedium}` : ''}`);
+  }
+  if (payload.referralCode) lines.push(`Referral code: ${payload.referralCode}`);
+  return lines.join('\n');
+}
+
+async function pushToAdminApp(payload) {
+  const url = process.env.ADMIN_INTAKE_URL;
+  const apiKey = process.env.ADMIN_INTAKE_API_KEY;
+  if (!url || !apiKey) {
+    console.error('Admin app intake skipped: missing ADMIN_INTAKE_URL or ADMIN_INTAKE_API_KEY.');
+    return { ok: false };
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
+      body: JSON.stringify({
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone || undefined,
+        event_type: payload.eventType || undefined,
+        event_date: payload.eventDate || undefined,
+        location_name: payload.venue || undefined,
+        message: buildAdminMessage(payload),
+        source: payload.leadSource && payload.leadSource !== 'Direct / Website' ? payload.leadSource : 'website',
+      }),
+    });
+    if (!response.ok) {
+      console.error('Admin app rejected inquiry:', response.status, await response.text().catch(() => ''));
+      return { ok: false };
+    }
+    return { ok: true };
+  } catch (error) {
+    console.error('Admin app push failed:', error);
+    return { ok: false };
+  }
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -163,16 +213,21 @@ module.exports = async function handler(req, res) {
   const bccEmails = parseEmailList(process.env.INQUIRY_BCC_EMAILS || '');
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'Castaneda Strings <onboarding@resend.dev>';
 
-  if (!apiKey) {
-    return res.status(500).json({ error: 'Missing RESEND_API_KEY environment variable.' });
-  }
+  // Resend is a backup notification channel now, not the only path — the admin
+  // app push below is what actually creates the inquiry. So a missing/broken
+  // Resend config shouldn't block submissions.
+  const resendConfigured =
+    Boolean(apiKey) &&
+    toEmails.length > 0 &&
+    toEmails.every(isValidEmail) &&
+    ccEmails.every(isValidEmail) &&
+    bccEmails.every(isValidEmail);
 
-  if (!toEmails.length || toEmails.some((email) => !isValidEmail(email))) {
-    return res.status(500).json({ error: 'INQUIRY_TO_EMAIL must include at least one valid email address.' });
+  if (apiKey && (!toEmails.length || toEmails.some((email) => !isValidEmail(email)))) {
+    console.error('INQUIRY_TO_EMAIL must include at least one valid email address — skipping Resend notification.');
   }
-
   if (ccEmails.some((email) => !isValidEmail(email)) || bccEmails.some((email) => !isValidEmail(email))) {
-    return res.status(500).json({ error: 'INQUIRY_CC_EMAILS and INQUIRY_BCC_EMAILS must only include valid email addresses.' });
+    console.error('INQUIRY_CC_EMAILS / INQUIRY_BCC_EMAILS contain an invalid address — skipping Resend notification.');
   }
 
   const body = typeof req.body === 'object' && req.body !== null ? req.body : {};
@@ -233,25 +288,39 @@ module.exports = async function handler(req, res) {
   };
 
   try {
-    const resendResponse = await fetch(RESEND_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(resendPayload)
-    });
+    const [resendResult, adminResult] = await Promise.all([
+      resendConfigured
+        ? fetch(RESEND_API_URL, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(resendPayload)
+          })
+            .then(async (resendResponse) => ({
+              ok: resendResponse.ok,
+              body: await resendResponse.json().catch(() => ({}))
+            }))
+            .catch((error) => {
+              console.error('Resend request failed:', error);
+              return { ok: false, body: {} };
+            })
+        : Promise.resolve({ ok: false, body: {}, skipped: true }),
+      pushToAdminApp(payload)
+    ]);
 
-    const result = await resendResponse.json().catch(() => ({}));
-
-    if (!resendResponse.ok) {
-      console.error('Resend error:', result);
-      return res.status(502).json({ error: 'Resend could not send the inquiry.' });
+    if (!resendResult.ok && !resendResult.skipped) {
+      console.error('Resend error:', resendResult.body);
     }
 
-    return res.status(200).json({ ok: true, id: result.id });
+    if (!resendResult.ok && !adminResult.ok) {
+      return res.status(502).json({ error: 'Inquiry could not be delivered. Please try again or email us directly.' });
+    }
+
+    return res.status(200).json({ ok: true, id: resendResult.body.id, savedToAdmin: adminResult.ok });
   } catch (error) {
     console.error('Inquiry send error:', error);
-    return res.status(500).json({ error: 'Inquiry email failed to send.' });
+    return res.status(500).json({ error: 'Inquiry failed to send.' });
   }
 };

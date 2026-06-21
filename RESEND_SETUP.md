@@ -14,6 +14,20 @@ INQUIRY_TO_EMAIL=eli@example.com,rebecca@example.com
 RESEND_FROM_EMAIL=Castaneda Strings <inquiries@castanedastrings.com>
 ```
 
+## Admin app connection (new)
+
+Every inquiry now also gets pushed into the admin app at admin.castanedastrings.com, where it
+shows up under Inquiries automatically. This runs alongside the Resend email above — if Resend
+isn't configured or fails, the admin push still happens (and vice versa).
+
+```txt
+ADMIN_INTAKE_URL=https://admin.castanedastrings.com/api/public/inquiries
+ADMIN_INTAKE_API_KEY=<same secret as PUBLIC_INTAKE_API_KEY in the admin app's env vars>
+```
+
+Generate one long random string for the key, put it here AND in the admin app's
+`PUBLIC_INTAKE_API_KEY` env var. They must match exactly.
+
 ## Optional Email Recipients
 
 ```txt
