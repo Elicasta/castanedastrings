@@ -37,6 +37,16 @@ function formatDate(value = '') {
   }).format(date);
 }
 
+function shortUrl(value = '') {
+  if (!value) return '—';
+  try {
+    const url = new URL(value);
+    return `${url.hostname}${url.pathname}${url.search}`.slice(0, MAX_FIELD_LENGTH);
+  } catch (error) {
+    return String(value).slice(0, MAX_FIELD_LENGTH);
+  }
+}
+
 function buildRows(fields) {
   return fields.map(([label, value]) => `
     <tr>
@@ -58,7 +68,18 @@ function buildEmailHtml(payload) {
     ['Performance Time', payload.duration || '—'],
     ['Song Requests', payload.musicStyle || '—'],
     ['Preferred Contact', payload.contactMethod || '—'],
-    ['Source', payload.source || 'Website'],
+    ['Form Location', payload.source || 'Website'],
+    ['Lead Source', payload.leadSource || 'Direct / Website'],
+    ['Lead Medium', payload.leadMedium || '—'],
+    ['Message Channel', payload.messageChannel || '—'],
+    ['Referral Code', payload.referralCode || '—'],
+    ['Campaign', payload.leadCampaign || '—'],
+    ['Content / Placement', payload.leadContent || '—'],
+    ['Browser Context', payload.browserContext || '—'],
+    ['Referrer', shortUrl(payload.referrer)],
+    ['Landing Page', shortUrl(payload.landingPage)],
+    ['Current Page', shortUrl(payload.currentPage)],
+    ['Click ID Type', payload.clickId || '—'],
     ['Event Notes', payload.message || '—']
   ];
 
@@ -104,11 +125,30 @@ function buildEmailText(payload) {
     `Desired performance time: ${payload.duration || '—'}`,
     `Song requests: ${payload.musicStyle || '—'}`,
     `Preferred contact: ${payload.contactMethod || '—'}`,
-    `Source: ${payload.source || 'Website'}`,
+    `Form location: ${payload.source || 'Website'}`,
+    `Lead source: ${payload.leadSource || 'Direct / Website'}`,
+    `Lead medium: ${payload.leadMedium || '—'}`,
+    `Message channel: ${payload.messageChannel || '—'}`,
+    `Referral code: ${payload.referralCode || '—'}`,
+    `Campaign: ${payload.leadCampaign || '—'}`,
+    `Content / placement: ${payload.leadContent || '—'}`,
+    `Browser context: ${payload.browserContext || '—'}`,
+    `Referrer: ${shortUrl(payload.referrer)}`,
+    `Landing page: ${shortUrl(payload.landingPage)}`,
+    `Current page: ${shortUrl(payload.currentPage)}`,
+    `Click ID type: ${payload.clickId || '—'}`,
     '',
     'Event notes:',
     payload.message || '—'
   ].join('\n');
+}
+
+function subjectTag(payload) {
+  const parts = [];
+  if (payload.leadSource && payload.leadSource !== 'Direct / Website') parts.push(payload.leadSource);
+  if (payload.leadMedium) parts.push(payload.leadMedium);
+  if (payload.referralCode) parts.push(`ref:${payload.referralCode}`);
+  return parts.length ? ` [${parts.join(' / ')}]` : '';
 }
 
 module.exports = async function handler(req, res) {
@@ -139,6 +179,19 @@ module.exports = async function handler(req, res) {
 
   const payload = {
     source: clean(body.source),
+    leadSource: clean(body.leadSource),
+    leadMedium: clean(body.leadMedium),
+    messageChannel: clean(body.messageChannel),
+    referralCode: clean(body.referralCode),
+    leadCampaign: clean(body.leadCampaign),
+    leadContent: clean(body.leadContent),
+    leadTerm: clean(body.leadTerm),
+    clickId: clean(body.clickId),
+    referrer: clean(body.referrer),
+    landingPage: clean(body.landingPage),
+    currentPage: clean(body.currentPage),
+    browserContext: clean(body.browserContext),
+    userAgent: clean(body.userAgent),
     name: clean(body.name),
     email: clean(body.email).toLowerCase(),
     phone: clean(body.phone),
@@ -166,7 +219,7 @@ module.exports = async function handler(req, res) {
   }
 
   const subjectEvent = payload.eventType || 'Event';
-  const subject = `New Castaneda Strings inquiry — ${subjectEvent} — ${payload.name}`;
+  const subject = `New Castaneda Strings inquiry — ${subjectEvent} — ${payload.name}${subjectTag(payload)}`;
 
   const resendPayload = {
     from: fromEmail,
